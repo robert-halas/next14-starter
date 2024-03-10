@@ -1,12 +1,25 @@
+"use client"
+
 import styles from './contact.module.css'
 import Image from "next/image";
+import {useEffect, useState} from "react";
 const ContactPage = () => {
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    const [isClient, setIsClient] = useState(false)
+    const a= Math.random()
+    console.log(a)
+
     return (
         <div className={styles.container}>
             <div className={styles.imgContainer}>
                 <Image src={'/contact.png'} alt={'Contact page'} fill className={styles.img}/>
             </div>
             <div className={styles.formContainer}>
+                <p>{isClient && a}</p>
                 <form action={''} className={styles.form}>
                     <input type={'text'} placeholder={'Name and Surname'}/>
                     <input type={'text'} placeholder={'Email Address'}/>
