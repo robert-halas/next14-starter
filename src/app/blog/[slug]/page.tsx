@@ -1,10 +1,21 @@
 import styles from './singlePost.module.css'
 import Image from "next/image";
-import {usePathname} from "next/navigation";
 import {getPost} from "../../../lib/data";
-const SinglePostPage = async ({slug}) => {
+import {Suspense} from "react";
+import PostUser from "../../../components/postUser/postUser";
 
-    console.log("slug is: "+slug);
+export const generateMetadata = async ({ params }) => {
+    const {slug} = params
+    const post = await getPost(slug)
+    return {
+        title:post.title,
+        description:post.desc
+    }
+}
+
+const SinglePostPage = async ({params}) => {
+
+    const {slug} = params
     const post = await getPost(slug);
 
     return (
@@ -17,14 +28,14 @@ const SinglePostPage = async ({slug}) => {
             <div className={styles.textContainer}>
                 <h1 className={styles.title}>{post.title}</h1>
                 <div className={styles.detail}>
-
-                    <div className={styles.detailText}>
-                        <span className={styles.detailTitle}>Author</span>
-                        <span className={styles.detailValue}>Terry Jefferson</span>
-                    </div>
+                    {post && (
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <PostUser userId={post.userId} />
+                        </Suspense>
+                    )}
                     <div className={styles.detailText}>
                         <span className={styles.detailTitle}>Published</span>
-                        <span className={styles.detailValue}>{post.createdAt.toString().slice(4,16)}</span>
+                        <span className={styles.detailValue}>{post.createdAt??<p>eee jbg</p>}</span>
                     </div>
                 </div>
                 <div className={styles.content}>

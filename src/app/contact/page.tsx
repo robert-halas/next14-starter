@@ -3,6 +3,11 @@
 import styles from './contact.module.css'
 import Image from "next/image";
 import {useEffect, useState} from "react";
+
+export const metadata = {
+    title: 'Contact',
+    description: 'Next.js starter app contact page',
+}
 const ContactPage = () => {
 
     useEffect(() => {
